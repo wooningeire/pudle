@@ -1,6 +1,8 @@
 # Pudle
 Wordle + Puyo Puyo hybrid
 
+![Poster for Pudle](./static/poster.png)
+
 ## Development
 This is a [SvelteKit](https://svelte.dev/) project.
 
