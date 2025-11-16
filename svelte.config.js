@@ -16,7 +16,10 @@ const config = {
 			"@/*": "src/*",
 			"#/*": "src/lib/components/*",
 		},
-	}
+		paths: {
+			base: "/pudle",
+		},
+	},
 };
 
 export default config;
