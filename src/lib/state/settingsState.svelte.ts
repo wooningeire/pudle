@@ -35,11 +35,19 @@ export class SettingsState {
     setupPersistentSettings() {
         const existingSettingsJson = localStorage.getItem(LOCAL_STORAGE_KEY);
         if (existingSettingsJson !== null) {
-            Object.assign(settingsState, JSON.parse(existingSettingsJson));
+            Object.assign(this, JSON.parse(existingSettingsJson));
         }
 
-        $effect(() => {
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(settingsState));
+        $effect.root(() => {
+            $effect(() => {
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({
+                    matchTileColor: this.matchTileColor,
+                    misplacedTileColor: this.misplacedTileColor,
+                    absentTileColor: this.absentTileColor,
+                    bgFrozen: this.bgFrozen,
+                    lightDark: this.lightDark,
+                }));
+            });
         });
     }
 }
