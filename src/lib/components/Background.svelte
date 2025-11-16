@@ -17,6 +17,8 @@ let canvasEl = $state<HTMLCanvasElement | null>(null);
 let gl = <WebGL2RenderingContext | null>null;
 let animationFrame = <number | null>null;
 let resolutionUnif = <WebGLUniformLocation | null>null;
+let matchColorUnif = <WebGLUniformLocation | null>null;
+let misplacedColorUnif = <WebGLUniformLocation | null>null;
 
 const baseTimescale = $derived(settingsState.bgFrozen ? 0 : 0.25);
 const timescale = $derived(
@@ -52,6 +54,8 @@ precision mediump float;
 uniform float time;
 uniform float warpedTime;
 uniform vec2 resolution;
+uniform vec3 matchColor;
+uniform vec3 misplacedColor;
 
 in vec2 v_texcoord;
 in vec2 v_texcoordCtr;
@@ -122,7 +126,7 @@ vec4 frontColor(vec2 uvTile, bool isEven, vec2 uvCtr) {
 
     if (!isFront) {
         return isEven
-            ? mix(vec4(0.85, 0.9, 0.82, 1.), vec4(0.93, 0.93, 0.82, 1.), sin(length(uvCtr) + time))
+            ? mix(vec4(matchColor, 1.), vec4(misplacedColor, 1.), sin(length(uvCtr) + time))
             : vec4(0.9375, 0.9375, 0.9375, 1.);
     }
 
@@ -252,6 +256,9 @@ void main(void)
     const warpedTimeUnif = gl.getUniformLocation(glProgram, "warpedTime");
     gl.uniform1f(warpedTimeUnif, 0);
 
+    matchColorUnif = gl.getUniformLocation(glProgram, "matchColor");
+    misplacedColorUnif = gl.getUniformLocation(glProgram, "misplacedColor");
+
 
     const texture = gl.createTexture();
     gl.activeTexture(gl.TEXTURE0);
@@ -318,6 +325,27 @@ const resizeCanvasAndViewport = () => {
 };
 
 $effect(resizeCanvasAndViewport);
+
+$effect(() => {
+    if (gl === null || matchColorUnif === null || misplacedColorUnif === null) return;
+    
+    const hexToRgb = (hex: string): [number, number, number] => {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result !== null
+            ? [
+                parseInt(result[1], 16) / 255,
+                parseInt(result[2], 16) / 255,
+                parseInt(result[3], 16) / 255
+            ]
+            : [0, 0, 0];
+    };
+    
+    const matchRgb = hexToRgb(settingsState.matchTileColor);
+    const misplacedRgb = hexToRgb(settingsState.misplacedTileColor);
+    
+    gl.uniform3fv(matchColorUnif, matchRgb);
+    gl.uniform3fv(misplacedColorUnif, misplacedRgb);
+});
 
 onDestroy(() => {
     if (animationFrame !== null) {
