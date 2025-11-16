@@ -1,4 +1,3 @@
-let offsetWhenNextStart = 0;
 let lastTimeout = 0;
 
 export const timerState = $state({
@@ -33,8 +32,6 @@ export const pauseTimer = () => {
 export const restartTimer = (onFinish: () => void, newTimeLimit: number | null=null) => {
     pauseTimer();
 
-    offsetWhenNextStart = 0;
-
     if (newTimeLimit !== null) {
         setTimeLimit(newTimeLimit);
     }
@@ -49,8 +46,6 @@ export const setTimeLimit = (limit: number) => {
 
 export const resetTimerState = () => {
     timerState.lastStartedAt = 0;
-    offsetWhenNextStart = 0;
-    timerState.paused = true;
     lastTimeout = 0;
     timerState.timeLimit = 0;
     timerState.msRemainingAtLastPause = 0;

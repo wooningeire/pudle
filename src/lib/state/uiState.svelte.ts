@@ -4,8 +4,8 @@ import { guessedCorrectly, matchResults, isValidGuess, nextWord, recordGuessResu
 import { TileTag } from "$lib/types/TileTag.ts";
 import { MatchResult } from "$lib/types/MatchResult.ts";
 import { GUESS_TIME_BY_GUESS_NO_DECAY_FAC, GUESS_TIME_BY_WORD_NO_DECAY_FAC, MAX_TIME_LIMIT_S_BY_WORD_NO, MIN_TIME_DECAY_LIMIT_S_BY_GUESS_NO, MIN_TIME_LIMIT_S_BY_WORD_NO, WORD_LENGTH, MAX_TIME_DECAY_LIMIT_S_BY_GUESS_NO, EMPTY_TILE_CHAR, N_ROWS, PAR_GUESSES_PER_WORD } from "$lib/constants.ts";
-import { pauseTimer, resetTimerState, restartTimer, setTimeLimit, resumeTimer, timerState } from "./timerState.svelte.ts";
-import { NoticeMessage, noticeState, addTemporaryMessage, addMessage, emitMessage } from "./noticeState.svelte.ts";
+import { pauseTimer, resetTimerState, setTimeLimit, resumeTimer } from "./timerState.svelte.ts";
+import { NoticeMessage, addTemporaryMessage, addMessage, emitMessage } from "./noticeState.svelte.ts";
 import { incrementNthGuess, incrementNthWord, resetStatsState, statsState } from "./statsState.svelte.ts";
 
 
@@ -205,7 +205,11 @@ const dropGarbage = async () => {
 
 
     state.boardsLocked = false;
-    restartTimer(dropGarbage, nextGuessTimeLimitDerived);
+
+    setTimeLimit(nextGuessTimeLimitDerived);
+    if (state.paused) return;
+
+    resumeTimer(dropGarbage);
 };
 
 /**
@@ -255,7 +259,7 @@ const requestBlueTileSelection = async () => {
 
 const execConsumeGuess = async (isGarbage=false) => {
     const results = matchResults(state.guess);
-    let tiles = <Tile[]>tilesFromMatchResults(state.guess, results);
+    const tiles = <Tile[]>tilesFromMatchResults(state.guess, results);
 
     state.boardsLocked = true;
     stopPreviewBlueTileRange();
@@ -336,7 +340,10 @@ export const consumeGuess = async () => {
     const {shouldContinue} = await execConsumeGuess();
     if (!shouldContinue) return;
 
-    restartTimer(dropGarbage, nextGuessTimeLimitDerived);
+    setTimeLimit(nextGuessTimeLimitDerived);
+    if (!state.paused) {
+        resumeTimer(dropGarbage);
+    }
 
     incrementNthGuess();
     state.guess = "";
@@ -423,8 +430,10 @@ export const blueTileAction = async (x: number, y: number, action: BlueTileActio
     const {shouldContinue} = await executeBlueTileAction(x, y, action);
     if (!shouldContinue) return;
 
-    resumeTimer(dropGarbage);
     state.boardsLocked = false;
+    if (state.paused) return;
+
+    resumeTimer(dropGarbage);
 };
 
 export const previewBlueTileRange = (x: number, y: number, action: BlueTileAction) => {
@@ -436,24 +445,20 @@ export const stopPreviewBlueTileRange = () => {
     state.previewRange = null;
 };
 
-let timerWasPausedWhenGamePaused = false;
 export const pauseGame = () => {
     if (state.paused) return;
 
-    timerWasPausedWhenGamePaused = timerState.paused;
     state.paused = true;
-    if (!timerWasPausedWhenGamePaused) {
-        pauseTimer();
-    }
+    pauseTimer();
 };
 
 export const unpauseGame = () => {
     if (!state.paused) return;
 
     state.paused = false;
-    if (!timerWasPausedWhenGamePaused) {
-        resumeTimer(dropGarbage);
-    }
+    if (state.boardsLocked) return;
+
+    resumeTimer(dropGarbage);
 };
 
 export const reset = async () => {
@@ -471,7 +476,6 @@ export const reset = async () => {
     state.previewRange = null;
 
     state.gameOver = false;
-    state.paused = false;
 
     state.selectingBlueTile = false;
     state.currentBlueTileSelectionResolver = null;

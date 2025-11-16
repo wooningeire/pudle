@@ -18,7 +18,6 @@ const togglePaused = () => {
     <Button
         onClick={togglePaused}
         moveDirection="left"
-        disabled={uiState().boardsLocked}
     >
         {#if !uiState().paused}
             settings
