@@ -1,8 +1,9 @@
 <script lang="ts">
-import { revertToDefaultSettings, settingsState } from "@/lib/state/settingsState.svelte";
+import { LightDark, settingsState } from "@/lib/state/settingsState.svelte";
 import { cubicInOut, cubicOut } from "svelte/easing";
 import { fly } from "svelte/transition";
     import Button from "./widgets/parts/Button.svelte";
+    import SettingsSeparator from "./SettingsSeparator.svelte";
 
 </script>
 
@@ -30,6 +31,45 @@ import { fly } from "svelte/transition";
         Absent tile color
     </setting-label>
 
+    <SettingsSeparator />
+
+    <input
+        type="radio"
+        name="light-dark"
+        bind:group={settingsState.lightDark}
+        value={LightDark.MatchSystem}
+        id="light-dark_match-system"
+    />
+
+    <label for="light-dark_match-system">
+        Match system light/dark
+    </label>
+
+    <input
+        type="radio"
+        name="light-dark"
+        bind:group={settingsState.lightDark}
+        value={LightDark.Light}
+        id="light-dark_light"
+    />
+
+    <setting-label>
+        Light
+    </setting-label>
+
+    <input
+        type="radio"
+        name="light-dark"
+        bind:group={settingsState.lightDark}
+        value={LightDark.Dark}
+        id="light-dark_dark"
+    />
+
+    <setting-label>
+        Dark
+    </setting-label>
+
+    <SettingsSeparator />
 
     <input type="checkbox" bind:checked={settingsState.bgFrozen} />
 
@@ -37,10 +77,13 @@ import { fly } from "svelte/transition";
         Freeze background
     </setting-option>
 
+
+
     <Button
-        onClick={() => revertToDefaultSettings()}
+        onClick={() => settingsState.revertToDefaults()}
         moveDirection="up"
     >reset</Button>
+
 </settings-panel>
 
 <style lang="scss">
@@ -58,7 +101,7 @@ settings-panel {
     grid-template-columns: auto auto;
     align-items: center;
 
-    gap: 2rem 0.5rem;
+    gap: 1.5rem 0.5rem;
     font-size: 1.5rem;
 }
 
@@ -66,7 +109,8 @@ input {
     justify-self: center;
 }
 
-input[type="checkbox"] {
+input[type="checkbox"],
+input[type="radio"] {
     width: 2rem;
     height: 2rem;
     accent-color: var(--tile-match);

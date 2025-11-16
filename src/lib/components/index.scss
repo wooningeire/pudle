@@ -3,7 +3,10 @@
 }
 
 :root {
-    --off-black: #42444b;
+    color-scheme: light dark;
+
+
+    --off-black: light-dark(#42444b, #ffffff);
         
     --light-green: #8dc28d;
     --light-yellow: #ddd98a;
@@ -20,8 +23,8 @@
     --tile-yellow-dark: #75704c;
     --tile-gray-dark: #4a4a55;
 
-    --button-bg: #f0f1ee;
-    --button-bg-dark: #bdc7bf;
+    --button-bg: light-dark(#f0f1ee, #323331);
+    --button-bg-dark: light-dark(#bdc7bf, #070707);
 
     --tile-flip-duration-first-guess: 0.5s;
 
@@ -31,39 +34,10 @@
     --tile-match: var(--tile-green);
     --tile-misplaced: var(--tile-yellow);
     --tile-absent: var(--tile-gray);
-    --tile-match-dark: var(--tile-green-dark);
-    --tile-misplaced-dark: var(--tile-yellow-dark);
-    --tile-absent-dark: var(--tile-gray-dark);
 }
 
 body {
     margin: 0;
     font-family: Belanosima, sans-serif;
     font-weight: 400;
-
-    color: var(--off-black);
-}
-
-a {
-    color: var(--tile-green-dark);
-
-    &:hover,
-    &:focus {
-        color: var(--tile-green);
-    }
-
-    &:active {
-        color: var(--off-black);
-    }
-
-    text-decoration: none;
-    border-bottom: currentcolor 2px solid;
-}
-
-button {
-    display: block;
-    border: none;
-    font-family: inherit;
-    font-size: 1em;
-    color: inherit;
 }

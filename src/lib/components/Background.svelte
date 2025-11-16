@@ -81,7 +81,7 @@ int getPhase(float adjustedTime) {
 }
 
 
-vec3 frontColor(vec2 uvTile, bool isEven, vec2 uvCtr) {
+vec4 frontColor(vec2 uvTile, bool isEven, vec2 uvCtr) {
     float threshold;
     int direction;
     bool isFront;
@@ -122,11 +122,11 @@ vec3 frontColor(vec2 uvTile, bool isEven, vec2 uvCtr) {
 
     if (!isFront) {
         return isEven
-            ? mix(vec3(0.85, 0.9, 0.82), vec3(0.93, 0.93, 0.82), sin(length(uvCtr) + time))
-            : vec3(0.9375, 0.9375, 0.9375);
+            ? mix(vec4(0.85, 0.9, 0.82, 1.), vec4(0.93, 0.93, 0.82, 1.), sin(length(uvCtr) + time))
+            : vec4(0.9375, 0.9375, 0.9375, 1.);
     }
 
-    return vec3(1., 1., 1.);
+    return vec4(0., 0., 0., 0.);
 }
 
 // bool isBackTile(vec2 uvTile, bool isEven) {
@@ -179,13 +179,13 @@ void main(void)
     // );
 
 
-    vec3 color = frontColor(uvLargeTile, largeGridEvenOdd == 0., uvCtr);
+    vec4 color = frontColor(uvLargeTile, largeGridEvenOdd == 0., uvCtr);
     // bool back = isBackTile(uvSmallTile, smallGridEvenOdd == 0.);
 
 
 
 
-    fragColor = vec4(color, 1.);
+    fragColor = color;
     return;
 }`;
 
@@ -361,5 +361,9 @@ canvas {
     &.paused {
         opacity: 0.5;
     }
+}
+
+:global(.light-dark_dark) canvas-container {
+    opacity: 0.25;
 }
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts">
     import Background from "@/lib/components/Background.svelte";
 import GamePage from "@/lib/components/GamePage.svelte";
-    import { settingsState, setupPersistentSettings } from "@/lib/state/settingsState.svelte";
+    import { LightDark, settingsState } from "@/lib/state/settingsState.svelte";
     import { statsState } from "@/lib/state/statsState.svelte";
     import { onMount } from "svelte";
 
@@ -21,13 +21,18 @@ const resize = () => {
 
 onMount(resize);
 
-onMount(setupPersistentSettings);
+onMount(() => {
+    settingsState.setupPersistentSettings();
+});
 </script>
 
 <svelte:window onresize={resize} />
 
 <main
     bind:this={mainEl}
+    class:light-dark_match-system={settingsState.lightDark === LightDark.MatchSystem}
+    class:light-dark_light={settingsState.lightDark === LightDark.Light}
+    class:light-dark_dark={settingsState.lightDark === LightDark.Dark}
     style:--tile-match={settingsState.matchTileColor}
     style:--tile-misplaced={settingsState.misplacedTileColor}
     style:--tile-absent={settingsState.absentTileColor}
@@ -43,6 +48,14 @@ onMount(setupPersistentSettings);
 </main>
 
 <style lang="scss">
+:global(:root):has(main.light-dark_light) {
+    color-scheme: light;
+}
+
+:global(:root):has(main.light-dark_dark) {
+    color-scheme: dark;
+}
+
 main {
     display: grid;
     place-items: center;
@@ -53,8 +66,36 @@ main {
     perspective: 50rem;
     // overflow: hidden;
 
+    color: var(--off-black);
+
     > :global(*) {
         grid-area: 1/1;
     }
+}
+
+:global(a) {
+    --tile-match-dark: oklch(from var(--tile-match) calc(l - 0.2) c h);
+
+    color: var(--tile-match-dark);
+
+    &:hover,
+    &:focus {
+        color: var(--tile-match);
+    }
+
+    &:active {
+        color: var(--off-black);
+    }
+
+    text-decoration: none;
+    border-bottom: currentcolor 2px solid;
+}
+
+:global(button) {
+    display: block;
+    border: none;
+    font-family: inherit;
+    font-size: 1em;
+    color: inherit;
 }
 </style>

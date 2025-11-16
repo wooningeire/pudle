@@ -50,7 +50,8 @@ const handleClick = async () => {
 <style lang="scss">
 button-container {
     --button-color: var(--button-bg);
-    --box-shadow-color: var(--button-bg-dark);
+    --box-shadow-color: oklch(from var(--button-bg-dark) calc(l - 0.1) c h);
+    --tile-match-dark: oklch(from var(--tile-match) calc(l - 0.2) c h);
 
     display: grid;
     place-items: stretch;
@@ -131,6 +132,7 @@ button-shadow {
 }
 
 .success {
+
     button {
         animation: flash-green-button 0.5s forwards;
 
@@ -138,7 +140,7 @@ button-shadow {
             0%,
             50% {
                 background: var(--tile-match);
-                border-color: var(--tile-green-dark);
+                border-color: var(--tile-match-dark);
                 color: #fff;
             }
         }
@@ -151,7 +153,7 @@ button-shadow {
         @keyframes flash-green-shadow {
             0%,
             50% {
-                background: var(--tile-green-dark);
+                background: var(--tile-match-dark);
             }
         }
     }
