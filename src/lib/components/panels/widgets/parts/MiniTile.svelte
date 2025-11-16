@@ -25,7 +25,7 @@ const bgColor = $derived(getTileTypeCssColor(tileColor));
 
 
 <mini-tile
-    style:background={bgColor}
+    style:--bg-color={bgColor}
     in:halfFlipLeft|global={{duration: 500, delay: x * 50, easing: cubicInOut}}
     out:halfFlipRight|global={{duration: 500, delay: x * 50 + y * 50, easing: cubicInOut}}
     class:smaller
@@ -42,6 +42,8 @@ mini-tile {
     vertical-align: middle;
     place-items: center;
     line-height: 0.8;
+
+    background: var(--bg-color);
 
     &.smaller {
         width: 1rem;
@@ -63,5 +65,9 @@ mini-tile {
             0 0.125rem 0.25rem var(--tile-blue);
         color: var(--tile-blue-dark);
     }
+}
+
+:global(.light-dark_dark) mini-tile {
+    box-shadow: 0 0.0625rem 0.5rem oklch(from var(--bg-color) l c h / 0.75);
 }
 </style>

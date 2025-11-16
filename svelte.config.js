@@ -18,6 +18,7 @@ const config = {
 		},
 		paths: {
 			base: "/pudle",
+			relative: false,
 		},
 	},
 };

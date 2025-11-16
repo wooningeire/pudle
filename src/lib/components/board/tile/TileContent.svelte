@@ -141,6 +141,9 @@ tile-content {
     }
 }
 
+:global(.light-dark_dark) tile-content {
+    box-shadow: 0 0.125rem 1rem oklch(from var(--bg-color) l c h / 0.75);
+}
 
 tile-text {
     position: relative;

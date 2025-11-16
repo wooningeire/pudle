@@ -30,7 +30,6 @@ onMount(() => {
 
 <main
     bind:this={mainEl}
-    class:light-dark_match-system={settingsState.lightDark === LightDark.MatchSystem}
     class:light-dark_light={settingsState.lightDark === LightDark.Light}
     class:light-dark_dark={settingsState.lightDark === LightDark.Dark}
     style:--tile-match={settingsState.matchTileColor}
@@ -74,9 +73,9 @@ main {
 }
 
 :global(a) {
-    --tile-match-dark: oklch(from var(--tile-match) calc(l - 0.2) c h);
+    --tile-match-dark: oklch(from var(--tile-match) calc(l - 0.1) c h);
 
-    color: var(--tile-match-dark);
+    color: light-dark(var(--tile-match-dark), var(--tile-match));
 
     &:hover,
     &:focus {
@@ -89,6 +88,10 @@ main {
 
     text-decoration: none;
     border-bottom: currentcolor 2px solid;
+}
+
+:global(.light-dark_dark a) {
+    filter: drop-shadow(0 0.0625rem 0.5rem oklch(from currentcolor l c h / 0.5));
 }
 
 :global(button) {

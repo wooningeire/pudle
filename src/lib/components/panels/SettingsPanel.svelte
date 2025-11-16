@@ -11,27 +11,52 @@ import { fly } from "svelte/transition";
     <input
         type="color"
         bind:value={settingsState.matchTileColor}
+        id="color_match"
     />
 
-    <setting-label>
+    <label for="color_match">
         Match tile color
-    </setting-label>
+    </label>
 
 
-    <input type="color" bind:value={settingsState.misplacedTileColor} />
+    <input type="color" bind:value={settingsState.misplacedTileColor} id="color_misplaced" />
 
-    <setting-label>
+    <label for="color_misplaced">
         Misplaced tile color
-    </setting-label>
+    </label>
 
 
-    <input type="color" bind:value={settingsState.absentTileColor} />
+    <input type="color" bind:value={settingsState.absentTileColor} id="color_absent" />
 
-    <setting-label>
+    <label for="color_absent">
         Absent tile color
-    </setting-label>
+    </label>
 
     <SettingsSeparator />
+
+    <input
+        type="radio"
+        name="light-dark"
+        bind:group={settingsState.lightDark}
+        value={LightDark.Light}
+        id="light-dark_light"
+    />
+
+    <label for="light-dark_light">
+        Light
+    </label>
+
+    <input
+        type="radio"
+        name="light-dark"
+        bind:group={settingsState.lightDark}
+        value={LightDark.Dark}
+        id="light-dark_dark"
+    />
+
+    <label for="light-dark_dark">
+        Dark
+    </label>
 
     <input
         type="radio"
@@ -42,40 +67,16 @@ import { fly } from "svelte/transition";
     />
 
     <label for="light-dark_match-system">
-        Match system light/dark
+        Match system
     </label>
-
-    <input
-        type="radio"
-        name="light-dark"
-        bind:group={settingsState.lightDark}
-        value={LightDark.Light}
-        id="light-dark_light"
-    />
-
-    <setting-label>
-        Light
-    </setting-label>
-
-    <input
-        type="radio"
-        name="light-dark"
-        bind:group={settingsState.lightDark}
-        value={LightDark.Dark}
-        id="light-dark_dark"
-    />
-
-    <setting-label>
-        Dark
-    </setting-label>
 
     <SettingsSeparator />
 
-    <input type="checkbox" bind:checked={settingsState.bgFrozen} />
+    <input type="checkbox" bind:checked={settingsState.bgFrozen} id="bg-frozen" />
 
-    <setting-option>
+    <label for="bg-frozen">
         Freeze background
-    </setting-option>
+    </label>
 
 
 

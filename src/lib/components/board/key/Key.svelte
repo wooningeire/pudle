@@ -62,7 +62,7 @@ const handleClick = () => {
     class:has-color={hasInfo && info!.type !== MatchResult.Empty}
     class:must
     class:must-not={mustNot}
-    style:background={bgColor}
+    style:--bg-color={bgColor}
     style:--box-shadow-color={bgColorDark}
     style:transition-delay="{transitionDelay}ms"
     ontransitionend={rerollTransitionDelay}
@@ -78,7 +78,7 @@ button {
 
     display: grid;
     place-items: center;
-    background: var(--button-bg);
+    background: var(--bg-color, var(--button-bg));
     box-shadow: 0 0.25rem var(--box-shadow-color);
     border: none;
     width: 2rem;
@@ -140,5 +140,9 @@ button {
     }
 
     cursor: pointer;
+}
+
+:global(.light-dark_dark) button {
+    box-shadow: 0 0.125rem 0.5rem oklch(from var(--bg-color) l c h / 0.75);
 }
 </style>

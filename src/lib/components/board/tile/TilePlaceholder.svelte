@@ -123,7 +123,7 @@ tile-placeholder {
         outline 0.125s ease-in-out,
         outline-offset 0.075s ease-in-out,
         opacity 0.175s ease-in-out;
-    outline: 2px solid #aaa;
+    outline: 2px solid light-dark(#aaa, #555);
     outline-offset: -0.5rem;
 
     backface-visibility: hidden;
