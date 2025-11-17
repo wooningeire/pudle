@@ -149,7 +149,7 @@ prev-guesses-item {
 }
 
 prev-guesses-label {
-    color: #42444baf;
+    color: light-dark(#42444baf, #bec4d6af);
 }
 
 prev-guesses-grid-container {

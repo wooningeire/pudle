@@ -6,7 +6,7 @@
     color-scheme: light dark;
 
 
-    --off-black: light-dark(#42444b, #ffffff);
+    --off-black: light-dark(#42444b, #f8fdff);
         
     --light-green: #8dc28d;
     --light-yellow: #ddd98a;
@@ -23,8 +23,8 @@
     --tile-yellow-dark: #75704c;
     --tile-gray-dark: #4a4a55;
 
-    --button-bg: light-dark(#f0f1ee, #323331);
-    --button-bg-dark: light-dark(#bdc7bf, #070707);
+    --button-bg: light-dark(#f0f1ee, #303438);
+    --button-bg-dark: light-dark(#bdc7bf, #1c1c1d);
 
     --tile-flip-duration-first-guess: 0.5s;
 

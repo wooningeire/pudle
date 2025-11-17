@@ -77,17 +77,17 @@ main {
 
     color: light-dark(var(--tile-match-dark), var(--tile-match));
 
+    text-decoration: none;
+    border-bottom: currentcolor 2px solid;
+
     &:hover,
     &:focus {
-        color: var(--tile-match);
+        color: oklch(from light-dark(var(--tile-match-dark), var(--tile-match)) calc(l + 0.1) c h);
     }
 
     &:active {
         color: var(--off-black);
     }
-
-    text-decoration: none;
-    border-bottom: currentcolor 2px solid;
 }
 
 :global(.light-dark_dark a) {
