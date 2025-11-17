@@ -127,7 +127,7 @@ vec4 frontColor(vec2 uvTile, bool isEven, vec2 uvCtr) {
     if (!isFront) {
         return isEven
             ? mix(vec4(matchColor, 1.), vec4(misplacedColor, 1.), sin(length(uvCtr) + time))
-            : vec4(0.9375, 0.9375, 0.9375, 1.);
+            : vec4(0.875, 0.875, 0.875, 1.);
     }
 
     return vec4(0., 0., 0., 0.);
@@ -326,19 +326,20 @@ const resizeCanvasAndViewport = () => {
 
 $effect(resizeCanvasAndViewport);
 
+
+const hexToRgb = (hex: string): [number, number, number] => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result !== null
+        ? [
+            parseInt(result[1], 16) / 255,
+            parseInt(result[2], 16) / 255,
+            parseInt(result[3], 16) / 255
+        ]
+        : [0, 0, 0];
+};
 $effect(() => {
     if (gl === null || matchColorUnif === null || misplacedColorUnif === null) return;
     
-    const hexToRgb = (hex: string): [number, number, number] => {
-        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result !== null
-            ? [
-                parseInt(result[1], 16) / 255,
-                parseInt(result[2], 16) / 255,
-                parseInt(result[3], 16) / 255
-            ]
-            : [0, 0, 0];
-    };
     
     const matchRgb = hexToRgb(settingsState.matchTileColor);
     const misplacedRgb = hexToRgb(settingsState.misplacedTileColor);
@@ -379,6 +380,8 @@ canvas {
 
     transition: opacity 0.25s ease-in-out;
 
+    opacity: 0.5;
+
     @keyframes shrink-in {
         0% {
             transform: scale(1.5);
@@ -387,7 +390,7 @@ canvas {
     }
 
     &.paused {
-        opacity: 0.5;
+        opacity: 0.25;
     }
 }
 
