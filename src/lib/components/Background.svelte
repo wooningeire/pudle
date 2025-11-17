@@ -397,4 +397,10 @@ canvas {
 :global(.light-dark_dark) canvas-container {
     opacity: 0.25;
 }
+
+@media (prefers-color-scheme: dark) {
+    :global(.light-dark_match-system) canvas-container {
+        opacity: 0.25;
+    }
+}
 </style>

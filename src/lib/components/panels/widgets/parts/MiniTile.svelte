@@ -70,4 +70,10 @@ mini-tile {
 :global(.light-dark_dark) mini-tile {
     box-shadow: 0 0.0625rem 0.5rem oklch(from var(--bg-color) l c h / 0.75);
 }
+
+@media (prefers-color-scheme: dark) {
+    :global(.light-dark_match-system) mini-tile {
+        box-shadow: 0 0.0625rem 0.5rem oklch(from var(--bg-color) l c h / 0.75);
+    }
+}
 </style>

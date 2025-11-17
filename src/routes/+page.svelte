@@ -32,6 +32,7 @@ onMount(() => {
     bind:this={mainEl}
     class:light-dark_light={settingsState.lightDark === LightDark.Light}
     class:light-dark_dark={settingsState.lightDark === LightDark.Dark}
+    class:light-dark_match-system={settingsState.lightDark === LightDark.MatchSystem}
     style:--tile-match={settingsState.matchTileColor}
     style:--tile-misplaced={settingsState.misplacedTileColor}
     style:--tile-absent={settingsState.absentTileColor}
@@ -92,6 +93,12 @@ main {
 
 :global(.light-dark_dark a) {
     filter: drop-shadow(0 0.0625rem 0.5rem oklch(from currentcolor l c h / 0.5));
+}
+
+@media (prefers-color-scheme: dark) {
+    :global(.light-dark_match-system a) {
+        filter: drop-shadow(0 0.0625rem 0.5rem oklch(from currentcolor l c h / 0.5));
+    }
 }
 
 :global(button) {

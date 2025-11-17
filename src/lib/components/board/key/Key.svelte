@@ -144,5 +144,20 @@ button {
 
 :global(.light-dark_dark) button {
     box-shadow: 0 0.125rem 0.5rem oklch(from var(--bg-color) l c h / 0.75);
+
+    &.must-not {
+        filter: brightness(0.7);
+        opacity: 0.5;
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :global(.light-dark_match-system) button {
+        box-shadow: 0 0.125rem 0.5rem oklch(from var(--bg-color) l c h / 0.75);
+        
+        &.must-not {
+            filter: brightness(0.7);
+            opacity: 0.5;
+        }
+    }
 }
 </style>
