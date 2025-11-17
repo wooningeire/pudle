@@ -456,7 +456,7 @@ export const unpauseGame = () => {
     if (!state.paused) return;
 
     state.paused = false;
-    if (state.boardsLocked) return;
+    if (state.boardsLocked || statsState().isFirstGuess) return;
 
     resumeTimer(dropGarbage);
 };
