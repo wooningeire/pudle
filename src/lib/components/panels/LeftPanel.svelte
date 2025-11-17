@@ -32,7 +32,7 @@ import GameStats from "./widgets/GameStats.svelte";
 }
 
 left-panel {
-    grid-area: 2/1 / 4/2;
+    grid-area: 2/1 / 6/2;
     place-self: stretch;
     display: flex;
     flex-direction: column;

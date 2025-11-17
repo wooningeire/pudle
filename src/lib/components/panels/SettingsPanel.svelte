@@ -93,7 +93,7 @@ import { fly } from "svelte/transition";
 }
 
 settings-panel {
-    grid-area: 2/2 / 4/3;
+    grid-area: 2/2 / 6/3;
 
     position: relative;
 

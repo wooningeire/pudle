@@ -95,7 +95,7 @@ opacity: ${t};`
 }
 
 right-panel {
-    grid-area: 2/3 / 4/4;
+    grid-area: 3/3 / 6/4;
     place-self: stretch;
     display: flex;
     flex-direction: column;

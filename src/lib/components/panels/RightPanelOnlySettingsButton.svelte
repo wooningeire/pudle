@@ -17,7 +17,7 @@
 }
 
 right-panel-only-settings-button {
-    grid-area: 2/3 / 4/4;
+    grid-area: 6/3 / 7/4;
     justify-self: center;
     align-self: end;
     display: flex;

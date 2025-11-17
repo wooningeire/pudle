@@ -12,6 +12,8 @@ import { addMessage, NoticeMessage, noticeState } from "../state/noticeState.sve
     import { statsState } from "../state/statsState.svelte";
     import SettingsPanel from "./panels/SettingsPanel.svelte";
     import RightPanelOnlySettingsButton from "./panels/RightPanelOnlySettingsButton.svelte";
+    import { TileColor } from "../types/Tile";
+    import MiniTile from "./panels/widgets/parts/MiniTile.svelte";
 
 const removeLoadingMessage = addMessage(NoticeMessage.Loading);
 
@@ -42,6 +44,25 @@ onMount(async () => {
 
         <RightPanel />
     {/if}
+
+    <right-panel-only-instructions>
+        <p>
+            Guess a 5-letter word!
+        </p>
+        
+        <p>
+            <MiniTile tileColor={TileColor.Green} smaller /> = Correct letter!
+        </p>
+
+        <p>
+            <MiniTile tileColor={TileColor.Yellow} smaller /> = Letter in wrong position
+        </p>
+
+        <p>
+            <MiniTile tileColor={TileColor.Gray} smaller /> = Letter not in word
+        </p>
+    </right-panel-only-instructions>
+
     <RightPanelOnlySettingsButton />
 
     {#if uiState().paused}
@@ -50,6 +71,8 @@ onMount(async () => {
 </game-page>
 
 <style lang="scss">
+@import "#/constants.scss";
+
 * {
     transform-style: preserve-3d;
 }
@@ -60,9 +83,26 @@ game-page {
     justify-items: center;
 
     grid-template-columns: 15rem auto 15rem;
-    grid-template-rows: auto auto auto 5rem;
+    grid-template-rows: auto auto auto auto auto 5rem;
     margin: 0 -6rem;
 
-    gap: 0 2rem;
+    row-gap: 0;
+    column-gap: 2rem;
+}
+
+right-panel-only-instructions {
+    grid-area: 2/3 / 3/4;
+    align-self: start;
+    justify-self: start;
+
+    transform: rotateY(-35deg) scale(var(--scale-fac));
+    transform-origin: left;
+    backface-visibility: hidden;
+
+
+    --scale-fac: 1;
+    @media screen and (max-width: $small-width) {
+        --scale-fac: 0.75;
+    }
 }
 </style>

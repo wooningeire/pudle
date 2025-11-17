@@ -57,7 +57,7 @@ import { boardState } from "@/lib/state/boardState.svelte";
 }
 
 letter-board {
-    grid-area: 3/2 / 5/3;
+    grid-area: 4/2 / 7/3;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;

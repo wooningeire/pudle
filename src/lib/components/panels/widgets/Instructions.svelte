@@ -1,12 +1,10 @@
 <script>
-    import { fade } from "svelte/transition";
     import { ISLAND_SIZE_THRESHOLD } from "$lib/constants";
     import { uiState } from "$lib/state/uiState.svelte";
-    import { MatchResult } from "$lib/types/MatchResult";
     import { TileColor } from "$lib/types/Tile";
     import MiniTile from "./parts/MiniTile.svelte";
-    import { cubicOut, elasticOut } from "svelte/easing";
-    import { flipLeft, halfFlipLeft, halfFlipRight } from "#/transition";
+    import { elasticOut } from "svelte/easing";
+    import { halfFlipRight } from "#/transition";
 
 </script>
 <instructions-text>
@@ -22,6 +20,10 @@
     {#if uiState().discoveredBlueTiles}
         <p in:halfFlipRight={{duration: 4000, easing: elasticOut}}>
             Click a <MiniTile tileColor={TileColor.Blue} smaller /> to choose how it destroys tiles!
+        </p>
+
+        <p in:halfFlipRight={{duration: 4000, delay: 1000, easing: elasticOut}}>
+            Rows still on the board will give you hints for the new word.
         </p>
     {/if}
 
