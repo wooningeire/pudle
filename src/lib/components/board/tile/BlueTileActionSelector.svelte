@@ -59,9 +59,13 @@ blue-tile-action-selector {
 }
 
 blue-tile-action-option {
+    --action-color: var(--button-bg);
+    --action-shadow-color: var(--button-bg-dark);
+
     box-shadow:
-        0 0.125rem 0.5rem var(--tile-green-dark),
+        0 0.125rem 0.5rem var(--action-shadow-color),
         0 0 0 2px #fff inset;
+    background: var(--action-color);
     cursor: pointer;
     color: #fff;
     font-size: 0.8rem;
@@ -70,15 +74,21 @@ blue-tile-action-option {
     place-items: center;
 
     &.green {
-        background: var(--light-green);
+        --action-color: var(--tile-match);
+        --action-shadow-color: oklch(from var(--tile-match) calc(l - 0.2) c h);
+
         grid-area: 1/1;
     }
     &.yellow {
-        background: var(--light-yellow);
+        --action-color: var(--tile-misplaced);
+        --action-shadow-color: oklch(from var(--tile-misplaced) calc(l - 0.2) c h);
+
         grid-area: 1/2;
     }
     &.cross {
-        background: var(--tile-blue-dark);
+        --action-color: var(--tile-blue-dark);
+        --action-shadow-color: var(--tile-blue);
+
         grid-area: 2/1 / 3/-1;
     }
 
