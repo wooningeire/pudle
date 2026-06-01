@@ -57,6 +57,10 @@ onMount(() => {
 }
 
 main {
+    --tile-match-dark: oklch(from var(--tile-match) calc(l - 0.2) c h);
+    --tile-misplaced-dark: oklch(from var(--tile-misplaced) calc(l - 0.2) c h);
+    --tile-absent-dark: oklch(from var(--tile-absent) calc(l - 0.2) c h);
+
     display: grid;
     place-items: center;
     

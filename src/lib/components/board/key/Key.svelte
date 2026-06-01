@@ -25,8 +25,8 @@ const hasInfo = $derived(colorable && !uiState().paused && Object.hasOwn(roundSt
 const info = $derived(hasInfo ? roundState.knownLetterInfo[label] : null);
 const currentLetterPositionInfo = $derived(info?.positionInfo[inputingWhichLetter] ?? null);
 
-const bgColor = $derived(hasInfo ? getMatchResultCssColor(info!.type) : "");
-const bgColorDark = $derived(hasInfo ? getMatchResultCssColorDark(info!.type) : "");
+const bgColor = $derived(hasInfo ? getMatchResultCssColor(info!.type) : null);
+const bgColorDark = $derived(hasInfo ? getMatchResultCssColorDark(info!.type) : null);
 
 const disabled = $derived(uiState().inputLocked || forceDisabled);
 
@@ -74,11 +74,12 @@ const handleClick = () => {
 
 <style lang="scss">
 button {
+    --key-bg-color: var(--bg-color, var(--button-bg));
     --box-shadow-color: var(--button-bg-dark);
 
     display: grid;
     place-items: center;
-    background: var(--bg-color, var(--button-bg));
+    background: var(--key-bg-color);
     box-shadow: 0 0.25rem var(--box-shadow-color);
     border: none;
     width: 2rem;
@@ -143,7 +144,9 @@ button {
 }
 
 :global(.light-dark_dark) button {
-    box-shadow: 0 0.125rem 0.5rem oklch(from var(--bg-color) l c h / 0.75);
+    box-shadow:
+        0 0.25rem var(--box-shadow-color),
+        0 0.125rem 0.5rem oklch(from var(--key-bg-color) l c h / 0.75);
 
     &.must-not {
         filter: brightness(0.7);
@@ -152,7 +155,9 @@ button {
 }
 @media (prefers-color-scheme: dark) {
     :global(.light-dark_match-system) button {
-        box-shadow: 0 0.125rem 0.5rem oklch(from var(--bg-color) l c h / 0.75);
+        box-shadow:
+            0 0.25rem var(--box-shadow-color),
+            0 0.125rem 0.5rem oklch(from var(--key-bg-color) l c h / 0.75);
         
         &.must-not {
             filter: brightness(0.7);
