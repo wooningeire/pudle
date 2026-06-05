@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onDestroy, onMount, tick } from "svelte";
+    import { tick } from "svelte";
 import { MatchResult } from "$lib/types/MatchResult";
     import { TileColor } from "$lib/types/Tile";
 import MiniTile from "../parts/MiniTile.svelte";
@@ -10,10 +10,14 @@ const {
     word,
     matchResults,
     y,
+    animated=true,
+    flashOnAlreadyGuessed=true,
 }: {
     word: string,
     matchResults: MatchResult[],
     y: number,
+    animated?: boolean,
+    flashOnAlreadyGuessed?: boolean,
 } = $props();
 
 const resultsToColors = new Map([
@@ -41,12 +45,13 @@ const handleMessage: EventListener = (event: Event) => {
     })();
 };
 
-onMount(() => {
-    noticeEvent.addEventListener("message", handleMessage);
-});
+$effect(() => {
+    if (!flashOnAlreadyGuessed) return;
 
-onDestroy(() => {
-    noticeEvent.removeEventListener("message", handleMessage);
+    noticeEvent.addEventListener("message", handleMessage);
+    return () => {
+        noticeEvent.removeEventListener("message", handleMessage);
+    };
 });
 
 let containerEl = $state<HTMLDivElement | null>();
@@ -57,12 +62,13 @@ let containerEl = $state<HTMLDivElement | null>();
     bind:this={containerEl}
     onanimationend={(event: Event) => event.currentTarget === containerEl && (isDoingAlreadyGuessedFlash = false)}
 >
-    {#each word as letter, x}
+    {#each word as letter, x (x)}
         <MiniTile
             {letter}
             tileColor={resultsToColors.get(matchResults[x])!}
             {x}
             {y}
+            {animated}
         />
     {/each}
 </mini-word-row>

@@ -24,9 +24,10 @@ const inputingWhichLetter = $derived(uiState().guess.length);
 const hasInfo = $derived(colorable && !uiState().paused && Object.hasOwn(roundState.knownLetterInfo, label));
 const info = $derived(hasInfo ? roundState.knownLetterInfo[label] : null);
 const currentLetterPositionInfo = $derived(info?.positionInfo[inputingWhichLetter] ?? null);
+const hasColorHint = $derived(hasInfo && info!.type !== MatchResult.Empty);
 
-const bgColor = $derived(hasInfo ? getMatchResultCssColor(info!.type) : null);
-const bgColorDark = $derived(hasInfo ? getMatchResultCssColorDark(info!.type) : null);
+const bgColor = $derived(hasColorHint ? getMatchResultCssColor(info!.type) : null);
+const shadowColor = $derived(hasColorHint ? getMatchResultCssColorDark(info!.type) : null);
 
 const disabled = $derived(uiState().inputLocked || forceDisabled);
 
@@ -59,11 +60,11 @@ const handleClick = () => {
 <button
     onclick={handleClick}
     class:small
-    class:has-color={hasInfo && info!.type !== MatchResult.Empty}
+    class:has-color={hasColorHint}
     class:must
     class:must-not={mustNot}
     style:--bg-color={bgColor}
-    style:--box-shadow-color={bgColorDark}
+    style:--key-shadow-color={shadowColor}
     style:transition-delay="{transitionDelay}ms"
     ontransitionend={rerollTransitionDelay}
     bind:this={buttonEl}
@@ -75,12 +76,12 @@ const handleClick = () => {
 <style lang="scss">
 button {
     --key-bg-color: var(--bg-color, var(--button-bg));
-    --box-shadow-color: var(--button-bg-dark);
+    --key-extrusion-color: var(--key-shadow-color, var(--button-bg-dark));
 
     display: grid;
     place-items: center;
     background: var(--key-bg-color);
-    box-shadow: 0 0.25rem var(--box-shadow-color);
+    box-shadow: 0 0.25rem var(--key-extrusion-color);
     border: none;
     width: 2rem;
     height: 3rem;
@@ -145,7 +146,7 @@ button {
 
 :global(.light-dark_dark) button {
     box-shadow:
-        0 0.25rem var(--box-shadow-color),
+        0 0.25rem var(--key-extrusion-color),
         0 0.125rem 0.5rem oklch(from var(--key-bg-color) l c h / 0.75);
 
     &.must-not {
@@ -156,7 +157,7 @@ button {
 @media (prefers-color-scheme: dark) {
     :global(.light-dark_match-system) button {
         box-shadow:
-            0 0.25rem var(--box-shadow-color),
+            0 0.25rem var(--key-extrusion-color),
             0 0.125rem 0.5rem oklch(from var(--key-bg-color) l c h / 0.75);
         
         &.must-not {

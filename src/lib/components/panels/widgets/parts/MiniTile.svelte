@@ -12,22 +12,34 @@ const {
     x = 0,
     y = 0,
     smaller = false,
+    animated = true,
 }: {
     letter?: string,
     tileColor: TileColor,
     x?: number,
     y?: number,
     smaller?: boolean,
+    animated?: boolean,
 } = $props();
 
 const bgColor = $derived(getTileTypeCssColor(tileColor));
+const inParams = $derived({
+    duration: animated ? 500 : 0,
+    delay: animated ? x * 50 : 0,
+    easing: cubicInOut,
+});
+const outParams = $derived({
+    duration: animated ? 500 : 0,
+    delay: animated ? x * 50 + y * 50 : 0,
+    easing: cubicInOut,
+});
 </script>
 
 
 <mini-tile
     style:--bg-color={bgColor}
-    in:halfFlipLeft|global={{duration: 500, delay: x * 50, easing: cubicInOut}}
-    out:halfFlipRight|global={{duration: 500, delay: x * 50 + y * 50, easing: cubicInOut}}
+    in:halfFlipLeft|global={inParams}
+    out:halfFlipRight|global={outParams}
     class:smaller
     class:empty={tileColor === TileColor.Empty}
     class:blue={tileColor === TileColor.Blue}

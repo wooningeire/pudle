@@ -1,10 +1,7 @@
 <script>
     import { ISLAND_SIZE_THRESHOLD } from "$lib/constants";
-    import { uiState } from "$lib/state/uiState.svelte";
     import { TileColor } from "$lib/types/Tile";
     import MiniTile from "./parts/MiniTile.svelte";
-    import { elasticOut } from "svelte/easing";
-    import { halfFlipRight } from "#/transition";
 
 </script>
 <instructions-text>
@@ -16,16 +13,6 @@
     <p>
         Destroy <MiniTile tileColor={TileColor.Gray} smaller /> by making groups next to them!
     </p>
-
-    {#if uiState().discoveredBlueTiles}
-        <p in:halfFlipRight={{duration: 4000, easing: elasticOut}}>
-            Click a <MiniTile tileColor={TileColor.Blue} smaller /> to choose how it destroys tiles!
-        </p>
-
-        <p in:halfFlipRight={{duration: 4000, delay: 1000, easing: elasticOut}}>
-            Rows still on the board will give you hints for the new word.
-        </p>
-    {/if}
 
     <!-- <p>
         Groups will destroy nearby <MiniTile matchResult={MatchResult.Absent} smaller />!

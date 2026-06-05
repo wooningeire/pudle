@@ -8,24 +8,38 @@
 const {
     guessResults,
     showFinalWord=false,
+    animated=true,
+    flashOnAlreadyGuessed=true,
 }: {
     guessResults: Iterable<{guess: string, matchResults: MatchResult[]}>,
     showFinalWord?: boolean,
+    animated?: boolean,
+    flashOnAlreadyGuessed?: boolean,
 } = $props();
 </script>
 
 
 <prev-guesses-grid class:paused={uiState().paused}>
-    {#each guessResults as {guess, matchResults}, y}
-        <MiniWordRow word={guess} {matchResults} {y} />
+    {#each guessResults as {guess, matchResults}, y (guess)}
+        <MiniWordRow
+            word={guess}
+            {matchResults}
+            {y}
+            {animated}
+            {flashOnAlreadyGuessed}
+        />
     {/each}
     
     {#if showFinalWord && uiState().gameOver}
-        <MiniWordRow
-            word={roundState.word}
-            matchResults={new Array(WORD_LENGTH).fill(0).map(_ => MatchResult.Empty)}
-            y={roundState.guessedWords.size}
-        />
+        {#key roundState.word}
+            <MiniWordRow
+                word={roundState.word}
+                matchResults={new Array(WORD_LENGTH).fill(0).map(_ => MatchResult.Empty)}
+                y={roundState.guessedWords.size}
+                {animated}
+                flashOnAlreadyGuessed={false}
+            />
+        {/key}
     {/if}
 </prev-guesses-grid>
 
